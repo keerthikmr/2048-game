@@ -8,6 +8,20 @@ function Game() {
   const [gameWon, setGameWon] = useState(false);
   const [boardSize, setBoardSize] = useState<number | null>(null);
 
+  const tileColors = {
+    2: "bg-yellow-100",
+    4: "bg-yellow-200",
+    8: "bg-yellow-300",
+    16: "bg-yellow-400",
+    32: "bg-yellow-500",
+    64: "bg-yellow-600",
+    128: "bg-yellow-700",
+    256: "bg-yellow-800",
+    512: "bg-yellow-900",
+    1024: "bg-orange-500",
+    2048: "bg-orange-700",
+  };
+
   useEffect(() => {
     if (boardSize !== null) {
       initializeGame();
@@ -67,7 +81,7 @@ function Game() {
             <span className="text-xl font-bold">Score: {score}</span>
           </div>
           <div
-            className={`grid gap-4 bg-gray-300 p-2 rounded `}
+            className={`grid gap-4 bg-gray-300 p-2 rounded transition-all duration-300`}
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
               maxWidth: "100vw",
@@ -80,11 +94,15 @@ function Game() {
                 <div
                   key={`${rowIndex}-${colIndex}`}
                   className={`flex items-center justify-center w-full h-full text-2xl font-bold rounded ${
-                    tile > 0 ? "bg-yellow-400" : "bg-gray-200"
-                  }`}
+                    tile > 0
+                      ? tileColors[tile as keyof typeof tileColors] ||
+                        "bg-gray-400"
+                      : "bg-gray-200"
+                  } transition-transform duration-300`}
                   style={{
                     minWidth: "4rem",
                     minHeight: "4rem",
+                    animation: tile > 0 ? "spawn 0.3s ease-in-out" : undefined,
                   }}
                 >
                   {tile > 0 ? tile : ""}
