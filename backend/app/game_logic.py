@@ -78,3 +78,9 @@ def is_game_over(board: List[List[int]]) -> bool:
                 return False
 
     return True
+
+def is_game_won(board: List[List[int]]) -> bool:
+    for row in board:
+        if 2048 in row:
+            return True
+    return False
