@@ -44,9 +44,13 @@ def process_move(game_id: str, board: List[List[int]], direction: str) -> Tuple[
 
     if new_board != board:
         moved = True
-        # add_random_tile(new_board)
+        board = add_random_tile(new_board)
 
     return new_board, moved
 
 def add_random_tile(board: List[List[int]]) -> None:
-    pass
+    empty_tiles = [(row, column) for row in range(len(board)) for column in range(len(board[row])) if board[row][column] == 0]
+    if empty_tiles:
+        row, column = random.choice(empty_tiles)
+        board[row][column] = 2 if random.random() < 0.9 else 4
+
