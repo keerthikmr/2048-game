@@ -9,12 +9,15 @@ function Game() {
   const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
-    async function initializeGame() {
-      const response = await startGame(BOARD_SIZE);
-      setBoard(response.board);
-    }
     initializeGame();
   }, []);
+
+  async function initializeGame() {
+    const response = await startGame(BOARD_SIZE);
+    setBoard(response.board);
+    setScore(0);
+    setGameOver(false);
+  }
 
   const handleMove = async (direction: string) => {
     if (gameOver) return;
@@ -74,8 +77,17 @@ function Game() {
         </button>
       </div>
       {gameOver && (
-        <div className="mt-4 text-red-500 text-xl font-bold">
-          Game Over! Final Score: {score}
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-4">Game Over!</h2>
+            <p className="mb-4">Final Score: {score}</p>
+            <button
+              onClick={initializeGame}
+              className="px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Restart Game
+            </button>
+          </div>
         </div>
       )}
     </div>
