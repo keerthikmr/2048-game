@@ -63,14 +63,26 @@ function Game() {
           <div className="mb-4">
             <span className="text-xl font-bold">Score: {score}</span>
           </div>
-          <div className="grid grid-cols-4 gap-2 bg-gray-300 p-4 rounded">
+          <div
+            className={`grid gap-4 bg-gray-300 p-2 rounded `}
+            style={{
+              gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
+              maxWidth: "100vw",
+              maxHeight: "100vh",
+              aspectRatio: "1",
+            }}
+          >
             {board.map((row, rowIndex) =>
               row.map((tile, colIndex) => (
                 <div
                   key={`${rowIndex}-${colIndex}`}
-                  className={`flex items-center justify-center w-16 h-16 bg-gray-200 text-xl font-bold ${
+                  className={`flex items-center justify-center w-full h-full text-2xl font-bold rounded ${
                     tile > 0 ? "bg-yellow-400" : "bg-gray-200"
                   }`}
+                  style={{
+                    minWidth: "4rem",
+                    minHeight: "4rem",
+                  }}
                 >
                   {tile > 0 ? tile : ""}
                 </div>
