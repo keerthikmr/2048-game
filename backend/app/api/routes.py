@@ -10,7 +10,14 @@ async def ping():
 # get from game logic after creation
 @router.post("/start")
 async def start(req: StartRequest):
-    return {"board"}
+    # Return a static 4x4 board for now
+    board = [
+        [2, 0, 0, 2],
+        [0, 4, 0, 0],
+        [0, 0, 8, 0],
+        [2, 0, 0, 4],
+    ]
+    return {"board": board}
 
 @router.post("/move")
 async def move(req: MoveRequest):
