@@ -54,3 +54,8 @@ def add_random_tile(board: List[List[int]]) -> None:
         row, column = random.choice(empty_tiles)
         board[row][column] = 2 if random.random() < 0.9 else 4
 
+def create_initial_board(size: int) -> List[List[int]]:
+    board = [[0] * size for _ in range(size)]
+    add_random_tile(board)
+    add_random_tile(board)
+    return board
