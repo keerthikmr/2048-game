@@ -33,7 +33,7 @@ function Game() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="h-full min-h-full flex flex-col items-center justify-evenly">
       {boardSize === null ? (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
@@ -89,30 +89,39 @@ function Game() {
               ))
             )}
           </div>
-          <div className="flex mt-4 space-x-2">
+          <div className="flex flex-col items-center mt-4">
             <button
               onClick={() => handleMove("up")}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="p-4 bg-blue-500 text-white rounded-full mb-2"
             >
-              Up
+              ▲
             </button>
-            <button
-              onClick={() => handleMove("left")}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Left
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => handleMove("left")}
+                className="p-4 bg-blue-500 text-white rounded-full"
+              >
+                ◀
+              </button>
+              <div className="overflow-hidden w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbCoHINZgxndwjKISTAWPVVs3G79Pj7ppWdg&s"
+                  alt="Center Icon"
+                  className="w-12 h-12"
+                />
+              </div>
+              <button
+                onClick={() => handleMove("right")}
+                className="p-4 bg-blue-500 text-white rounded-full"
+              >
+                ▶
+              </button>
+            </div>
             <button
               onClick={() => handleMove("down")}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="p-4 bg-blue-500 text-white rounded-full mt-2"
             >
-              Down
-            </button>
-            <button
-              onClick={() => handleMove("right")}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Right
+              ▼
             </button>
           </div>
           {gameOver && (
