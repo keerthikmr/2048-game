@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from app.schemas import StartRequest, MoveRequest
+from app.game_logic import process_move
 
 router = APIRouter()
 
@@ -19,7 +20,8 @@ async def start(req: StartRequest):
     ]
     return {"board": board}
 
+
 @router.post("/move")
 async def move(req: MoveRequest):
-    board = req.board
-    return {"board"}
+    updated_board, valid_move = process_move(req.game_id, req.board, req.direction)
+    return {"board": updated_board, "valid_move": valid_move}
