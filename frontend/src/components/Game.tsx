@@ -5,6 +5,7 @@ function Game() {
   const [board, setBoard] = useState<number[][]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
   const [boardSize, setBoardSize] = useState<number | null>(null);
 
   useEffect(() => {
@@ -18,14 +19,16 @@ function Game() {
     setBoard(response.board);
     setScore(0);
     setGameOver(false);
+    setGameWon(false);
   }
 
   const handleMove = async (direction: string) => {
-    if (gameOver) return;
+    if (gameOver || gameWon) return;
 
     const response = await makeMove("", direction, board);
     setBoard(response.board);
     setGameOver(response.game_over);
+    setGameWon(response.game_won);
 
     if (response.valid_move) {
       setScore((prev) => prev + 1);
@@ -124,10 +127,12 @@ function Game() {
               ▼
             </button>
           </div>
-          {gameOver && (
+          {(gameOver || gameWon) && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-white p-6 rounded shadow-lg text-center">
-                <h2 className="text-2xl font-bold mb-4">Game Over!</h2>
+                <h2 className="text-2xl font-bold mb-4">
+                  {gameWon ? "You Won!" : "Game Over!"}
+                </h2>
                 <p className="mb-4">Final Score: {score}</p>
                 <button
                   onClick={initializeGame}
