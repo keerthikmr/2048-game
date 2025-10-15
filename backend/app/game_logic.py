@@ -24,7 +24,7 @@ def rotate_board(board: List[List[int]]) -> List[List[int]]:
 
 def process_move(game_id: str, board: List[List[int]], direction: str) -> Tuple[List[List[int]], bool]:
     size = len(board)
-    moved = False
+    valid_move = False
 
     if direction == "up":
         board = rotate_board(rotate_board(rotate_board(board)))
@@ -34,7 +34,10 @@ def process_move(game_id: str, board: List[List[int]], direction: str) -> Tuple[
         board = [row[::-1] for row in board]
 
     new_board = [move_tiles(row) for row in board]
-
+    
+    if new_board != board:
+        valid_move = True
+    
     if direction == "up":
         new_board = rotate_board(new_board)
     elif direction == "down":
@@ -42,20 +45,36 @@ def process_move(game_id: str, board: List[List[int]], direction: str) -> Tuple[
     elif direction == "right":
         new_board = [row[::-1] for row in new_board]
 
-    if new_board != board:
-        moved = True
-        board = add_random_tile(new_board)
+    if valid_move:
+        add_random_tile(new_board)
 
-    return new_board, moved
+    return new_board, valid_move
 
 def add_random_tile(board: List[List[int]]) -> None:
     empty_tiles = [(row, column) for row in range(len(board)) for column in range(len(board[row])) if board[row][column] == 0]
     if empty_tiles:
         row, column = random.choice(empty_tiles)
         board[row][column] = 2 if random.random() < 0.9 else 4
-
+    
 def create_initial_board(size: int) -> List[List[int]]:
     board = [[0] * size for _ in range(size)]
     add_random_tile(board)
     add_random_tile(board)
     return board
+
+def is_game_over(board: List[List[int]]) -> bool:
+    size = len(board)
+
+    for row in board:
+        if 0 in row:
+            return False
+
+    # Check for mergeable tiles
+    for row in range(size):
+        for col in range(size):
+            if col + 1 < size and board[row][col] == board[row][col + 1]:
+                return False
+            if row + 1 < size and board[row][col] == board[row + 1][col]:
+                return False
+
+    return True
