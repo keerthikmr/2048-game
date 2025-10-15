@@ -6,6 +6,7 @@ const BOARD_SIZE = 4;
 function Game() {
   const [board, setBoard] = useState<number[][]>([]);
   const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     async function initializeGame() {
@@ -16,8 +17,12 @@ function Game() {
   }, []);
 
   const handleMove = async (direction: string) => {
+    if (gameOver) return;
+
     const response = await makeMove("", direction, board);
     setBoard(response.board);
+    setGameOver(response.game_over);
+
     if (response.valid_move) {
       setScore((prev) => prev + 1);
     }
@@ -68,6 +73,11 @@ function Game() {
           Right
         </button>
       </div>
+      {gameOver && (
+        <div className="mt-4 text-red-500 text-xl font-bold">
+          Game Over! Final Score: {score}
+        </div>
+      )}
     </div>
   );
 }
