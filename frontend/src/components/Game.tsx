@@ -53,7 +53,7 @@ function Game() {
     <div className="h-full min-h-full flex flex-col items-center justify-evenly">
       {boardSize === null ? (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg text-center">
+          <div className="bg-[#FFFDD0] p-6 rounded shadow-lg text-center">
             <h2 className="text-2xl font-bold mb-4">Enter Board Size</h2>
             <input
               type="number"
@@ -81,7 +81,7 @@ function Game() {
             <span className="text-xl font-bold">Score: {score}</span>
           </div>
           <div
-            className={`grid gap-4 bg-gray-300 p-2 rounded transition-all duration-300`}
+            className={`grid gap-4 bg-[#ffba08] p-2 rounded transition-all duration-300`}
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
               maxWidth: "100vw",
@@ -97,7 +97,7 @@ function Game() {
                     tile > 0
                       ? tileColors[tile as keyof typeof tileColors] ||
                         "bg-gray-400"
-                      : "bg-gray-200"
+                      : "bg-[#F8DE7E]"
                   } transition-transform duration-300`}
                   style={{
                     minWidth: "4rem",
