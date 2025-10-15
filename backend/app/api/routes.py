@@ -10,8 +10,7 @@ async def ping():
 
 @router.post("/start")
 async def start(req: StartRequest):
-    # Return a static 4x4 board for now
-    board = create_initial_board(4)
+    board = create_initial_board(req.size)
     return {"board": board}
 
 @router.post("/move")
