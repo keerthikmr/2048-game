@@ -8,6 +8,12 @@ function Game() {
   const [gameWon, setGameWon] = useState(false);
   const [boardSize, setBoardSize] = useState<number | null>(null);
   const [showDpad, setShowDpad] = useState(true);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(
+    null
+  );
 
   const tileColors = {
     2: "bg-yellow-100",
@@ -64,6 +70,51 @@ function Game() {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [gameOver, gameWon, boardSize, board]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    if (gameOver || gameWon) return;
+
+    const deltaX = touchStart.x - touchEnd.x;
+    const deltaY = touchStart.y - touchEnd.y;
+    const minSwipeDistance = 50;
+
+    // Find if swipe is horizontal or vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+          handleMove("left");
+        } else {
+          handleMove("right");
+        }
+      }
+    } else {
+      // Vertical swipe
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        if (deltaY > 0) {
+          handleMove("up");
+        } else {
+          handleMove("down");
+        }
+      }
+    }
+  };
 
   async function initializeGame() {
     const response = await startGame(boardSize!);
@@ -132,7 +183,7 @@ function Game() {
             </span>
           </div>
           <div
-            className="grid gap-1 sm:gap-1.5 md:gap-2 bg-[#ffba08] p-1 sm:p-1.5 md:p-2 rounded"
+            className="grid gap-1 sm:gap-1.5 md:gap-2 bg-[#ffba08] p-1 sm:p-1.5 md:p-2 rounded touch-none"
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
               gridTemplateRows: `repeat(${boardSize}, 1fr)`,
@@ -145,6 +196,9 @@ function Game() {
               maxWidth: showDpad ? "500px" : "600px",
               maxHeight: showDpad ? "500px" : "600px",
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {board.map((row, rowIndex) =>
               row.map((tile, colIndex) => (
