@@ -98,7 +98,14 @@ function Game() {
               min="2"
               max="10"
               placeholder="Enter board size (e.g., 4)"
-              className="border p-2 mb-3 sm:mb-4 w-full text-base sm:text-lg"
+              className="
+                border p-2 mb-3 sm:mb-4 w-full text-base sm:text-lg 
+                [-moz-appearance:_textfield] 
+                [&::-webkit-outer-spin-button]:appearance-none 
+                [&::-webkit-inner-spin-button]:appearance-none 
+                [&::-webkit-outer-spin-button]:m-0 
+                [&::-webkit-inner-spin-button]:m-0
+              "
               onChange={(e) => setBoardSize(Number(e.target.value))}
             />
             <button
@@ -111,6 +118,9 @@ function Game() {
             >
               Start Game
             </button>
+            <p className="text-sm sm:text-base text-gray-600 italic mt-2">
+              Use WASD, Arrow Keys or the D-PAD to move tiles
+            </p>
           </div>
         </div>
       ) : (
