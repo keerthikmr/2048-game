@@ -50,7 +50,7 @@ function Game() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-2 sm:gap-3 overflow-hidden p-2">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-1 sm:gap-2 overflow-hidden p-1 sm:p-2">
       {boardSize === null ? (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-[#FFFDD0] p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
@@ -80,7 +80,7 @@ function Game() {
       ) : (
         <>
           <div className="shrink-0">
-            <span className="text-base sm:text-lg md:text-xl font-bold">
+            <span className="text-sm sm:text-base md:text-lg font-bold">
               Score: {score}
             </span>
           </div>
@@ -89,10 +89,10 @@ function Game() {
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
               gridTemplateRows: `repeat(${boardSize}, 1fr)`,
-              width: `min(90vw, calc(100vh - 16rem))`,
-              height: `min(90vw, calc(100vh - 16rem))`,
-              maxWidth: "600px",
-              maxHeight: "600px",
+              width: `min(85vw, calc(100vh - 20rem))`,
+              height: `min(85vw, calc(100vh - 20rem))`,
+              maxWidth: "500px",
+              maxHeight: "500px",
             }}
           >
             {board.map((row, rowIndex) =>
@@ -116,37 +116,41 @@ function Game() {
               ))
             )}
           </div>
-          <div className="flex flex-col items-center mt-4">
+          <div className="flex flex-col items-center shrink-0 mt-1 sm:mt-2">
             <button
               onClick={() => handleMove("up")}
-              className="p-4 bg-blue-500 text-white rounded-full mb-2"
+              className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mb-1 text-sm sm:text-base"
+              disabled={gameOver || gameWon}
             >
               ▲
             </button>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={() => handleMove("left")}
-                className="p-4 bg-blue-500 text-white rounded-full"
+                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                disabled={gameOver || gameWon}
               >
                 ◀
               </button>
-              <div className="overflow-hidden w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+              <div className="overflow-hidden w-8 h-8 sm:w-10 sm:h-10 bg-gray-300 rounded-full flex items-center justify-center">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbCoHINZgxndwjKISTAWPVVs3G79Pj7ppWdg&s"
                   alt="Center Icon"
-                  className="w-12 h-12"
+                  className="w-10 h-10 sm:w-12 sm:h-12"
                 />
               </div>
               <button
                 onClick={() => handleMove("right")}
-                className="p-4 bg-blue-500 text-white rounded-full"
+                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                disabled={gameOver || gameWon}
               >
                 ▶
               </button>
             </div>
             <button
               onClick={() => handleMove("down")}
-              className="p-4 bg-blue-500 text-white rounded-full mt-2"
+              className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mt-1 text-sm sm:text-base"
+              disabled={gameOver || gameWon}
             >
               ▼
             </button>
