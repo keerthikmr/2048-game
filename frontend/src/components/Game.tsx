@@ -28,6 +28,42 @@ function Game() {
     }
   }, [boardSize]);
 
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (gameOver || gameWon || boardSize === null) return;
+
+      const key = event.key.toLowerCase();
+
+      if (["arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) {
+        event.preventDefault();
+      }
+
+      switch (key) {
+        case "arrowup":
+        case "w":
+          handleMove("up");
+          break;
+        case "arrowdown":
+        case "s":
+          handleMove("down");
+          break;
+        case "arrowleft":
+        case "a":
+          handleMove("left");
+          break;
+        case "arrowright":
+        case "d":
+          handleMove("right");
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [gameOver, gameWon, boardSize, board]);
+
   async function initializeGame() {
     const response = await startGame(boardSize!);
     setBoard(response.board);
