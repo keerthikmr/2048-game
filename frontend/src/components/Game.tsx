@@ -50,17 +50,19 @@ function Game() {
   };
 
   return (
-    <div className="h-full min-h-full flex flex-col items-center justify-evenly">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-2 sm:gap-3 overflow-hidden p-2">
       {boardSize === null ? (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-[#FFFDD0] p-6 rounded shadow-lg text-center">
-            <h2 className="text-2xl font-bold mb-4">Enter Board Size</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-[#FFFDD0] p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              Enter Board Size
+            </h2>
             <input
               type="number"
               min="2"
               max="10"
               placeholder="Enter board size (e.g., 4)"
-              className="border p-2 rounded mb-4 w-full"
+              className="border p-2 mb-3 sm:mb-4 w-full text-base sm:text-lg"
               onChange={(e) => setBoardSize(Number(e.target.value))}
             />
             <button
@@ -69,7 +71,7 @@ function Game() {
                   initializeGame();
                 }
               }}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="px-4 py-2 bg-blue-500 text-white rounded text-base sm:text-lg"
             >
               Start Game
             </button>
@@ -77,35 +79,39 @@ function Game() {
         </div>
       ) : (
         <>
-          <div className="mb-4">
-            <span className="text-xl font-bold">Score: {score}</span>
+          <div className="shrink-0">
+            <span className="text-base sm:text-lg md:text-xl font-bold">
+              Score: {score}
+            </span>
           </div>
           <div
-            className={`grid gap-4 bg-[#ffba08] p-2 rounded transition-all duration-300`}
+            className="grid gap-1 sm:gap-1.5 md:gap-2 bg-[#ffba08] p-1 sm:p-1.5 md:p-2 rounded"
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
-              maxWidth: "100vw",
-              maxHeight: "100vh",
-              aspectRatio: "1",
+              gridTemplateRows: `repeat(${boardSize}, 1fr)`,
+              width: `min(90vw, calc(100vh - 16rem))`,
+              height: `min(90vw, calc(100vh - 16rem))`,
+              maxWidth: "600px",
+              maxHeight: "600px",
             }}
           >
             {board.map((row, rowIndex) =>
               row.map((tile, colIndex) => (
                 <div
                   key={`${rowIndex}-${colIndex}`}
-                  className={`flex items-center justify-center w-full h-full text-2xl font-bold rounded ${
-                    tile > 0
+                  className={`flex items-center justify-center rounded font-bold text-black transition-all ${
+                    tile
                       ? tileColors[tile as keyof typeof tileColors] ||
                         "bg-gray-400"
                       : "bg-[#F8DE7E]"
-                  } transition-transform duration-300`}
+                  }`}
                   style={{
-                    minWidth: "4rem",
-                    minHeight: "4rem",
-                    animation: tile > 0 ? "spawn 0.3s ease-in-out" : undefined,
+                    fontSize: `calc(${8 / boardSize}rem)`,
+                    minHeight: 0,
+                    minWidth: 0,
                   }}
                 >
-                  {tile > 0 ? tile : ""}
+                  {tile || ""}
                 </div>
               ))
             )}
@@ -145,18 +151,33 @@ function Game() {
               ▼
             </button>
           </div>
-          {(gameOver || gameWon) && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white p-6 rounded shadow-lg text-center">
-                <h2 className="text-2xl font-bold mb-4">
-                  {gameWon ? "You Won!" : "Game Over!"}
+
+          {gameOver && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+              <div className="bg-white p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
+                <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                  Game Over!
                 </h2>
-                <p className="mb-4">Final Score: {score}</p>
                 <button
                   onClick={initializeGame}
-                  className="px-4 py-2 bg-green-500 text-white rounded"
+                  className="px-4 py-2 bg-blue-500 text-white rounded text-base sm:text-lg"
                 >
-                  Restart Game
+                  Play Again
+                </button>
+              </div>
+            </div>
+          )}
+          {gameWon && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+              <div className="bg-white p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
+                <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                  You Won!
+                </h2>
+                <button
+                  onClick={initializeGame}
+                  className="px-4 py-2 bg-blue-500 text-white rounded text-base sm:text-lg"
+                >
+                  Play Again
                 </button>
               </div>
             </div>
