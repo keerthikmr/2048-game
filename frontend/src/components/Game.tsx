@@ -7,6 +7,7 @@ function Game() {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [boardSize, setBoardSize] = useState<number | null>(null);
+  const [showDpad, setShowDpad] = useState(true);
 
   const tileColors = {
     2: "bg-yellow-100",
@@ -135,10 +136,14 @@ function Game() {
             style={{
               gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
               gridTemplateRows: `repeat(${boardSize}, 1fr)`,
-              width: `min(85vw, calc(100vh - 20rem))`,
-              height: `min(85vw, calc(100vh - 20rem))`,
-              maxWidth: "500px",
-              maxHeight: "500px",
+              width: showDpad
+                ? `min(85vw, calc(100vh - 20rem))`
+                : `min(85vw, calc(100vh - 10rem))`,
+              height: showDpad
+                ? `min(85vw, calc(100vh - 20rem))`
+                : `min(85vw, calc(100vh - 10rem))`,
+              maxWidth: showDpad ? "500px" : "600px",
+              maxHeight: showDpad ? "500px" : "600px",
             }}
           >
             {board.map((row, rowIndex) =>
@@ -162,46 +167,54 @@ function Game() {
               ))
             )}
           </div>
-          <div className="flex flex-col items-center shrink-0 mt-1 sm:mt-2">
-            <button
-              onClick={() => handleMove("up")}
-              className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mb-1 text-sm sm:text-base"
-              disabled={gameOver || gameWon}
-            >
-              ▲
-            </button>
-            <div className="flex items-center space-x-2 sm:space-x-3">
+          {showDpad && (
+            <div className="flex flex-col items-center shrink-0 mt-1 sm:mt-2">
               <button
-                onClick={() => handleMove("left")}
-                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                onClick={() => handleMove("up")}
+                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mb-1 text-sm sm:text-base"
                 disabled={gameOver || gameWon}
               >
-                ◀
+                ▲
               </button>
-              <div className="overflow-hidden w-8 h-8 sm:w-10 sm:h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbCoHINZgxndwjKISTAWPVVs3G79Pj7ppWdg&s"
-                  alt="Center Icon"
-                  className="w-10 h-10 sm:w-12 sm:h-12"
-                />
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <button
+                  onClick={() => handleMove("left")}
+                  className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                  disabled={gameOver || gameWon}
+                >
+                  ◀
+                </button>
+                <div className="overflow-hidden w-8 h-8 sm:w-10 sm:h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbCoHINZgxndwjKISTAWPVVs3G79Pj7ppWdg&s"
+                    alt="Center Icon"
+                    className="w-10 h-10 sm:w-12 sm:h-12"
+                  />
+                </div>
+                <button
+                  onClick={() => handleMove("right")}
+                  className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                  disabled={gameOver || gameWon}
+                >
+                  ▶
+                </button>
               </div>
               <button
-                onClick={() => handleMove("right")}
-                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full text-sm sm:text-base"
+                onClick={() => handleMove("down")}
+                className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mt-1 text-sm sm:text-base"
                 disabled={gameOver || gameWon}
               >
-                ▶
+                ▼
               </button>
             </div>
-            <button
-              onClick={() => handleMove("down")}
-              className="p-2 sm:p-3 bg-blue-500 text-white rounded-full mt-1 text-sm sm:text-base"
-              disabled={gameOver || gameWon}
-            >
-              ▼
-            </button>
-          </div>
-
+          )}
+          <button
+            onClick={() => setShowDpad(!showDpad)}
+            className="absolute bottom-0 right-0 text-white !text-xs transition-all z-40"
+            title={showDpad ? "Hide D-pad" : "Show D-pad"}
+          >
+            {showDpad ? "▼ Hide" : "▲ Show"}
+          </button>
           {gameOver && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
               <div className="bg-white p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
