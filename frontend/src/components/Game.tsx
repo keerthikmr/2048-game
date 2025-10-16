@@ -171,7 +171,7 @@ function Game() {
               Start Game
             </button>
             <p className="text-sm sm:text-base text-gray-600 italic mt-2">
-              Use WASD, Arrow Keys or the D-PAD to move tiles
+              Use WASD, Arrow Keys, Swipes, or the D-PAD to move tiles
             </p>
           </div>
         </div>
