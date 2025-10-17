@@ -6,7 +6,7 @@ import os
 app = FastAPI()
 app.include_router(router)
 
-allowed_origin = os.getenv("FRONTEND_URL", "http://localhost:3000")
+allowed_origin = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 
 app.add_middleware(
     CORSMiddleware,
