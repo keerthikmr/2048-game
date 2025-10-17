@@ -18,4 +18,4 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "Backend running!"}
+    return {"message": "Backend running! {allowed_origin} is allowed."}
