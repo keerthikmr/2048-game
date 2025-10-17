@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { startGame, makeMove } from "../api";
 
-function Game() {
+function Game({
+  showOptions,
+  setShowOptions,
+}: {
+  showOptions: boolean;
+  setShowOptions: (value: boolean) => void;
+}) {
   const [board, setBoard] = useState<number[][]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
-  const [boardSize, setBoardSize] = useState<number | null>(null);
+  const [boardSize, setBoardSize] = useState<number>(4);
   const [showDpad, setShowDpad] = useState(true);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
     null
@@ -281,6 +287,60 @@ function Game() {
                 >
                   Play Again
                 </button>
+              </div>
+            </div>
+          )}
+          {showOptions && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="relative bg-[#E1C16E] p-4 sm:p-6 rounded shadow-lg text-center max-w-sm mx-4">
+                <button
+                  onClick={() => setShowOptions(false)}
+                  className="absolute top-2 right-2 text-white hover:text-gray-800 text-lg font-bold"
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+
+                <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                  Options
+                </h2>
+                <div className="flex flex-col space-y-4">
+                  <button
+                    onClick={() => {
+                      setShowOptions(false);
+                      initializeGame();
+                    }}
+                    className="px-4 py-2 bg-blue-500 text-white rounded text-base sm:text-lg"
+                  >
+                    Restart
+                  </button>
+                  <div>
+                    <input
+                      type="number"
+                      min="2"
+                      max="10"
+                      placeholder="Enter board size (e.g., 4)"
+                      className="
+                        border p-2 mb-3 sm:mb-4 w-full text-base sm:text-lg 
+                        [-moz-appearance:_textfield] 
+                        [&::-webkit-outer-spin-button]:appearance-none 
+                        [&::-webkit-inner-spin-button]:appearance-none 
+                        [&::-webkit-outer-spin-button]:m-0 
+                        [&::-webkit-inner-spin-button]:m-0
+                      "
+                      onChange={(e) => setBoardSize(Number(e.target.value))}
+                    />
+                    <button
+                      onClick={() => {
+                        setShowOptions(false);
+                        initializeGame();
+                      }}
+                      className="px-4 py-2 bg-green-500 text-white rounded text-base sm:text-lg"
+                    >
+                      Change Board Configuration
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
