@@ -1,7 +1,7 @@
 import "./App.css";
 import Game from "./components/Game";
 import { useState } from "react";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [showOptions, setShowOptions] = useState(false);
