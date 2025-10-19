@@ -1,6 +1,7 @@
 import "./App.css";
 import Game from "./components/Game";
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   const [showOptions, setShowOptions] = useState(false);
@@ -20,6 +21,7 @@ function App() {
       <div className="flex-1 w-full overflow-hidden flex items-center justify-center min-h-0 relative">
         <Game showOptions={showOptions} setShowOptions={setShowOptions} />
       </div>
+      <Analytics />
     </div>
   );
 }
